@@ -68,8 +68,8 @@ qtriang <- function(p, min, max, mode) {
   idx2 <- p > p_mode
 
   # Inversa de la CDF (Fuente [5])
-  q[idx1] <- min[idx1] + sqrt(p[idx1] * (max[idx1] - min[idx1]) * (mode[idx1] - min[idx1]))
-  q[idx2] <- max[idx2] - sqrt((1 - p[idx2]) * (max[idx2] - min[idx2]) * (max[idx2] - mode[idx2]))
+  q[idx1] <- min + sqrt(p[idx1] * (max - min) * (mode - min))
+  q[idx2] <- max - sqrt((1 - p[idx2]) * (max - min) * (max - mode))
 
   return(q)
 }
@@ -82,6 +82,7 @@ qtriang <- function(p, min, max, mode) {
 #' @param mode Mode of the distribution
 #' @return A numeric vector of random variates
 #' @export
+#' @importFrom stats runif
 rtriang <- function(n, min, max, mode) {
   if (any(min >= max)) stop("min must be strictly less than max")
   if (any(mode < min | mode > max)) stop("mode must be within [min, max]")
